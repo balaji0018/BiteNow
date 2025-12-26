@@ -3,56 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Update Menu - BiteNow Admin</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- show current menu -->
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Item name</th>
-                <th>Picture</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Is veg/</th>
-            </tr>
-        </thead>
-        <tbody>
-            {%  for item in itemList %}
-                <tr>
-                    <td>{{ item.name }}</td>
-                    <td>
-                        <img src="{{ item.picture }}" width="180">
-                    </td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.price }}</td>
-                    <td>{{ item.vegeterian }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<body class="admin-page">
 
+    <div class="container">
+        
+        <header class="page-header">
+            <h3>Menu Management 🍔</h3>
+            <p class="subtitle">Managing menu for <strong>{{ restaurant.name }}</strong></p>
+            <div style="margin-top: 10px;">
+                <a href="{% url 'open_show_restaurant' %}" class="back-link">← Back to Restaurants</a>
+            </div>
+        </header>
 
-    <!-- add food item (form) -->
-    <h2>Add Menu Item</h2>
-    <form action="{% url 'update_menu' restaurant.id %}" method="post">
-        {% csrf_token %}
-        <label for="name">Item Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
+        <div class="section-title">Current Menu Items</div>
+        
+        <div class="table-wrapper">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Dish</th>
+                        <th>Image</th>
+                        <th width="30%">Description</th> <th>Price</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in itemList %}
+                        <tr>
+                            <td class="fw-bold">{{ item.name }}</td>
+                            <td>
+                                <img src="{{ item.picture }}" class="table-img" alt="{{ item.name }}">
+                            </td>
+                            <td style="font-size: 0.9rem; color: #666;">
+                                {{ item.description|truncatewords:10 }}
+                            </td>
+                            <td style="font-weight: 600; color: #2c3e50;">₹{{ item.price }}</td>
+                            <td>
+                                {% if item.vegeterian %}
+                                    <span class="veg-badge">🟢 Veg</span>
+                                {% else %}
+                                    <span class="non-veg-badge">🔴 Non-Veg</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" style="text-align:center; padding: 20px;">
+                                No items in menu yet. Add one below! 👇
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" required></textarea><br><br>
+        <br><br>
 
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" step="0.01" required><br><br>
+        <div class="hero-container" style="min-height: auto; padding: 0;">
+            <div class="auth-card" style="margin: 0 auto; width: 100%; max-width: 600px;">
+                <div class="auth-header">
+                    <h3>Add New Item ➕</h3>
+                    <p>Add a delicious dish to the menu.</p>
+                </div>
 
-        <label for="vegeterian">Vegetarian:</label>
-        <input type="checkbox" id="vegeterian" name="vegeterian"><br><br>
+                <form action="{% url 'update_menu' restaurant.id %}" method="post" class="auth-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="name">Item Name</label>
+                        <input type="text" id="name" name="name" placeholder="e.g. Cheese Pizza" required>
+                    </div>
 
-        <label for="picture">Image URL:</label>
-        <input type="url" id="picture" name="picture"><br><br>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" rows="3" placeholder="Describe ingredients, taste..." required></textarea>
+                    </div>
 
-        <button type="submit">Add Item</button>
-    </form>
+                    <div class="form-group-row"> <div class="form-group half-width">
+                            <label for="price">Price (₹)</label>
+                            <input type="number" id="price" name="price" step="0.01" placeholder="299" required>
+                        </div>
+                        
+                        <div class="form-group half-width">
+                            <label>Dietary Type</label>
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="vegeterian" name="vegeterian">
+                                <label for="vegeterian" style="margin:0; cursor:pointer;">Is Vegetarian? 🌿</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="picture">Image URL</label>
+                        <input type="url" id="picture" name="picture" placeholder="https://..." required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Add to Menu</button>
+                </form>
+            </div>
+        </div>
+        
+        <br><br> </div>
+
 </body>
 </html>

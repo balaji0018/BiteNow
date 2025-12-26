@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Welcome page</title>
+    <title>Welcome to Meal Mate</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'styles.css' %}">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <h3>Welcome to Meal Mate May!</h3>
+<body class="welcome-page"> <div class="hero-container">
+        <div class="welcome-card">
+            <div class="logo-icon">🍔</div>
 
+            <h3>Welcome to BiteNow!</h3>
+            <p class="sub-text">Delicious food is just a click away.</p>
 
-    <a href="open_signup">SIGN UP</a>
-    <br>
-    <a href="open_signin">SIGN IN</a>
+            <div class="button-group">
+                <a href="open_signup" class="btn btn-primary">SIGN UP</a>
+                <a href="open_signin" class="btn btn-outline">SIGN IN</a>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

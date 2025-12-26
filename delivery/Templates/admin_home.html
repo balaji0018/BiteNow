@@ -3,13 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
+    <title>Admin Dashboard - BiteNow</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <h3>Welcome to Admin HOME!</h3>
+<body class="admin-page">
 
+    <div class="container">
+        <header class="page-header">
+            <h3>Admin Dashboard 🛠️</h3>
+            <p class="subtitle">Manage <strong>BiteNow</strong> restaurants and operations.</p>
+        </header>
 
-    <a href="open_add_restaurant">ADD NEW RESTAURANT</a>
-    <br><br>
-    <a href="open_show_restaurant">SHOW RESTAURANTS</a>
+        <div class="dashboard-grid">
+            
+            <a href="open_add_restaurant" class="dash-card add-card">
+                <div class="dash-icon">➕</div>
+                <h4>Add Restaurant</h4>
+                <p>Onboard a new partner to the platform.</p>
+            </a>
+
+            <a href="open_show_restaurant" class="dash-card view-card">
+                <div class="dash-icon">📋</div>
+                <h4>View All Restaurants</h4>
+                <p>Edit details, update menus, or remove partners.</p>
+            </a>
+
+        </div>
+    </div>
+
 </body>
+</html>

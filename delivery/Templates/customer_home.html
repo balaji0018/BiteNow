@@ -3,38 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Page</title>
+    <title>Find a Restaurant</title>
+    {% load static %} 
+    
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h3>Welcome {{username}}!</h3>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Restaurant name</th>
-                <th>Picture</th>
-                <th>Cuisine</th>
-                <th>Rating</th>
-                <th>Operations</th>
-            </tr>
-        </thead>
-        <tbody>
-            {%  for r in restaurantList %}
-                <tr>
-                    <td>{{ r.name }}</td>
-                    <td>
-                        <img src="{{ r.picture }}">
-                    </td>
-                    <td>{{ r.cuisine }}</td>
-                    <td>{{ r.rating }}</td>
-                    <td>
-                        <a href="{% url 'view_menu' r.id username %}">
+    <div class="container">
+        <header class="page-header">
+            <h3>Welcome back, <span class="highlight">{{ username }}</span>! 👋</h3>
+            <p class="subtitle">Discover the best food around you.</p>
+        </header>
+
+        <div class="restaurant-grid">
+            {% for r in restaurantList %}
+                <div class="card">
+                    <div class="card-image-wrapper">
+                        <img src="{{ r.picture }}" alt="{{ r.name }}" class="card-image">
+                        <span class="rating-badge">★ {{ r.rating }}</span>
+                    </div>
+                    
+                    <div class="card-content">
+                        <h4 class="card-title">{{ r.name }}</h4>
+                        <p class="cuisine-tag">🍽 {{ r.cuisine }}</p>
+                        
+                        <a href="{% url 'view_menu' r.id username %}" class="btn-menu">
                             View Menu
                         </a>
-                    </td>
-                </tr>
+                    </div>
+                </div>
             {% endfor %}
-        </tbody>
-    </table>
+        </div>
+    </div>
+
 </body>
 </html>

@@ -3,46 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Manage Restaurants - BiteNow Admin</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Restaurant name</th>
-                <th>Picture</th>
-                <th>Cuisine</th>
-                <th>Rating</th>
-                <th>Operations</th>
-            </tr>
-        </thead>
-        <tbody>
-            {%  for r in restaurantList %}
-                <tr>
-                    <td>{{ r.name }}</td>
-                    <td>
-                        <img src="{{ r.picture }}">
-                    </td>
-                    <td>{{ r.cuisine }}</td>
-                    <td>{{ r.rating }}</td>
-                    <td>
-                        <a href="">
-                            Update Restaurant Info
-                        </a>
-                        <br>
-                        <a href="">
-                            Delete Restaurant
-                        </a>
-                        <br>
-                        <a href="{% url 'open_update_menu' r.id %}">
-                            Update Menu
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
+<body class="admin-page">
+
+    <div class="container">
+        <header class="page-header">
+            <h3>Manage Restaurants 📋</h3>
+            <p class="subtitle">View, edit, or remove partners from BiteNow.</p>
+            <div style="margin-top: 15px;">
+                <a href="javascript:history.back()" class="back-link">← Back to Dashboard</a>
+            </div>
+        </header>
+
+        <div class="table-wrapper">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Restaurant</th>
+                        <th>Preview</th>
+                        <th>Cuisine</th>
+                        <th>Rating</th>
+                        <th style="text-align: center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in restaurantList %}
+                        <tr>
+                            <td class="fw-bold">{{ r.name }}</td>
+                            <td>
+                                <img src="{{ r.picture }}" alt="Resto" class="table-img">
+                            </td>
+                            <td>
+                                <span class="cuisine-badge">{{ r.cuisine }}</span>
+                            </td>
+                            <td>⭐ {{ r.rating }}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="{% url 'open_update_restaurant' r.id %}" class="btn-action btn-edit" title="Update Info">
+                                        ✏️ Edit
+                                    </a>
+                                    
+                                    <a href="{% url 'open_update_menu' r.id %}" class="btn-action btn-menu-edit" title="Update Menu">
+                                        🍔 Menu
+                                    </a>
+
+                                    <a href="{% url 'delete_restaurant' r.id %}" class="btn-action btn-delete" title="Delete" onclick="return confirm('Are you sure you want to delete this restaurant?');">
+                                        🗑️ Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </body>
 </html>
