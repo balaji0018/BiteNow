@@ -17,20 +17,21 @@
         </header>
 
         <div class="dashboard-grid">
-            
-            <a href="open_add_restaurant" class="dash-card add-card">
-                <div class="dash-icon">➕</div>
-                <h4>Add Restaurant</h4>
-                <p>Onboard a new partner to the platform.</p>
-            </a>
 
-            <a href="open_show_restaurant" class="dash-card view-card">
-                <div class="dash-icon">📋</div>
-                <h4>View All Restaurants</h4>
-                <p>Edit details, update menus, or remove partners.</p>
-            </a>
+    <a href="{% url 'open_add_restaurant' %}" class="dash-card add-card">
+        <div class="dash-icon">➕</div>
+        <h4>Add Restaurant</h4>
+        <p>Onboard a new partner to the platform.</p>
+    </a>
 
-        </div>
+    <a href="{% url 'open_show_restaurant' %}" class="dash-card view-card">
+        <div class="dash-icon">📋</div>
+        <h4>View All Restaurants</h4>
+        <p>Edit details, update menus, or remove partners.</p>
+    </a>
+
+</div>
+
     </div>
 
 </body>

@@ -34,7 +34,11 @@ urlpatterns = [
     path('view_menu/<int:restaurant_id>/<str:username>', views.view_menu, name='view_menu'),
     path('open_update_restaurant/<int:restaurant_id>', views.open_update_restaurant, name = 'open_update_restaurant'),
     path('update_restaurant/<int:restaurant_id>', views.update_restaurant, name = 'update_restaurant'),
-    path('delete_restaurant/<int:restaurant_id>', views.delete_restaurant, name = "delete_restaurant")
+    path('delete_restaurant/<int:restaurant_id>', views.delete_restaurant, name = "delete_restaurant"),
+    path('add_to_cart/<int:item_id>/<str:username>', views.add_to_cart, name='add_to_cart'),
+    path('show_cart/<str:username>', views.show_cart, name = "show_cart"),
+    path('checkout/<str:username>', views.checkout, name = "checkout"),
+
     
     
 ]
