@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>Order Confirmed - BiteNow</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-page">
+
+    <div class="hero-container">
+        <div class="auth-card" style="text-align: center; max-width: 500px;">
+            
+            <div class="success-icon">🎉</div>
+
+            <div class="auth-header">
+                <h3 style="color: #27ae60;">Order Placed!</h3>
+                <p style="font-size: 1.1rem; color: #555;">
+                    Thank you, <strong>{{ username }}</strong>!
+                </p>
+            </div>
+
+            <div class="address-card">
+                <div class="address-label">📍 Delivery Address</div>
+                <p class="address-text">{{ customer.address }}</p>
+            </div>
+
+            <p style="color: #7f8c8d; font-size: 0.95rem; margin-top: 20px; line-height: 1.6;">
+                Your order will be delivered to this location shortly. <br>
+                Thank you for choosing <strong>BiteNow</strong>!
+            </p>
+
+            <div style="margin-top: 30px;">
+                {% if cart_items %}
+                    <a href="{% url 'customer_menu' cart_items.0.restaurant.id username %}" class="btn btn-primary btn-block">
+                        Order More Food 🍔
+                    </a>
+                {% else %}
+                    <a href="/" class="btn btn-primary btn-block">
+                        Back to Restaurants 🏠
+                    </a>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

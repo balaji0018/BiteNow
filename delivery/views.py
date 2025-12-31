@@ -165,11 +165,18 @@ def view_menu(request, restaurant_id, username):
                      "username":username})
 
 def add_to_cart(request, item_id, username):
-    item = Item.objects.get(id = item_id)
-    customer = customers.objects.get(username = username)
-    cart, created = Cart.objects.get_or_create(customers = customer)
+    item = Item.objects.get(id=item_id)
+    customer = customers.objects.get(username=username)
+    cart, created = Cart.objects.get_or_create(customers=customer)
     cart.items.add(item)
-    return HttpResponse('added to cart')
+    
+    # This returns a JavaScript snippet that shows an alert and goes back to the menu
+    return HttpResponse("""
+        <script>
+            alert('Item added to cart successfully! 🛒');
+            window.history.back();
+        </script>
+    """)
 
 def show_cart(request, username):
     customer = customers.objects.get(username = username)
@@ -203,7 +210,7 @@ def checkout(request,username):
     order = client.order.create(data=order_data)
 
     # Pass the order details to the frontend
-    return render(request, 'delivery/checkout.html', {
+    return render(request, 'checkout.html', {
         'username': username,
         'cart_items': cart_items,
         'total_price': total_price,
@@ -211,6 +218,23 @@ def checkout(request,username):
         'order_id': order['id'],  # Razorpay order ID
         'amount': total_price,
     })
+
+def orders(request,username):
+    customer = get_object_or_404(customers, username = username)
+    cart = Cart.objects.filter(customers = customer).first()
+    cart_items = cart.items.all() if cart else []
+    total_price = cart.total_price() if cart else 0
+
+    if cart:
+        cart.items.clear()
+    
+    return render(request, 'orders.html', {
+        'username': username,
+        'customer': customer,
+        'cart_items': cart_items,
+        'total_price': total_price,
+    })
+
     
 
 

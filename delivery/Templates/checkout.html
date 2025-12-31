@@ -3,48 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout</title>
+    <title>Secure Checkout - BiteNow</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
-<body>
-    <h1>Checkout</h1>
-    <h2>Welcome, {{ username }}</h2>
+<body class="admin-page">
 
-    {% if error %}
-    <p style="color: red;">{{ error }}</p>
-    {% else %}
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in cart_items %}
-            <tr>
-                <td>{{ item.name }}</td>
-                <td>₹{{ item.price }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <h3>Total: ₹{{ total_price }}</h3>
+    <div class="container">
+        
+        <header class="page-header" style="text-align: center; margin-bottom: 30px;">
+            <h3>Secure Checkout 🔒</h3>
+            <p class="subtitle">Almost there, <span class="highlight">{{ username }}</span>!</p>
+        </header>
 
-    <button id="rzp-button">Pay with Razorpay</button>
-    {% endif %}
+        {% if error %}
+            <div class="error-box">
+                <div style="font-size: 2rem;">⚠️</div>
+                <div>
+                    <strong>Payment Error</strong><br>
+                    {{ error }}
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="javascript:history.back()" class="back-link">← Go Back</a>
+            </div>
+        {% else %}
+
+            <div class="checkout-card">
+                
+                <h4 style="color: #2c3e50; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                    Order Summary
+                </h4>
+
+                <table class="receipt-table">
+                    <thead>
+                        <tr>
+                            <th style="background-color: #f8f9fa; color: #555;">Item Name</th>
+                            <th style="background-color: #f8f9fa; color: #555; text-align: right;">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td style="font-weight: 600; color: #333;">{{ item.name }}</td>
+                            <td style="text-align: right; color: #555;">₹{{ item.price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="checkout-total">
+                    <span>Total to Pay:</span>
+                    <span class="highlight-price">₹{{ total_price }}</span>
+                </div>
+
+                <button id="rzp-button" class="btn-razorpay">
+                    Pay Now with Razorpay 💳
+                </button>
+
+                <p style="text-align: center; font-size: 0.85rem; color: #999; margin-top: 15px;">
+                    🔒 Payments are secured by Razorpay
+                </p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="javascript:history.back()" class="back-link">Cancel & Go Back</a>
+            </div>
+
+        {% endif %}
+
+    </div>
 
     <script>
         var options = {
-            "key": "{{ razorpay_key_id }}",  // Razorpay API key
+            "key": "{{ razorpay_key_id }}",
             "amount": "{{ total_price|floatformat:2|add:'0.00'|floatformat:2 }}00", // Amount in paisa
             "currency": "INR",
-            "name": "Meal Buddy",
+            "name": "BiteNow", // Updated name
             "description": "Order Payment",
-            "order_id": "{{ order_id }}",  // Razorpay order ID
+            "order_id": "{{ order_id }}",
             "handler": function (response) {
                 alert("Payment Successful!");
-                // Redirect to the orders page
                 window.location.href = "{% url 'orders' username %}";
             },
             "prefill": {
